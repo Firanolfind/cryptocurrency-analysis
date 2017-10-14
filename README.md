@@ -1,10 +1,7 @@
-# Cryptocurrency Analysis
-
+# Twitter Accumulator
 
 ## Getting started 
-Download repository, unzip and go to directory. 
-Type `npm install`
-After that `npm start`
-
-## Config
-Have a look at configuration to change **#hashtag** target, limit of messages and so on.
+Download repository, unzip and go to directory.
+Change `config.js` according to you needs. Set up twitter app credentials i.e keywords hashtags, output filename, twit limit, etc.
+`npm install`
+`npm start`

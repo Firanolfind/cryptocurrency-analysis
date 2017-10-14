@@ -3,14 +3,15 @@ require('colors');
 const FS 			= require('fs');
 const Excel 		= require('exceljs');
 const Moment		= require('moment');
+const packageJson 	= require('./package.json');
+const author 		= process.env.USER || packageJson.author;
 
 module.exports = function(CONFIG){
 
-	const fileStream 	= FS.createWriteStream(CONFIG.output);
-
-	const workbook 		= new Excel.Workbook();
-	workbook.creator 	= 'Firanolfind';
-	workbook.lastModifiedBy = 'Firanolfind';
+	const fileStream 		= FS.createWriteStream(CONFIG.output);
+	const workbook 			= new Excel.Workbook();
+	workbook.creator 		= author;
+	workbook.lastModifiedBy = author;
 
 	const bitCoins = workbook.addWorksheet('BitCoins');
 	bitCoins.columns = [
