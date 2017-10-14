@@ -3,21 +3,20 @@ require('colors');
 
 const CONFIG		= require('./config');
 const Twitter 		= require('twitter');
-const twitter 		= new Twitter(CONFIG);
+const twitter 		= new Twitter(CONFIG.twitter);
 const xls 			= require('./xls')(CONFIG);
 
-const limit = 10;
 var count = 0;
 
 twitter.stream('statuses/filter', { track: 'bitcoin' }, function(stream) {
 	stream.on('data', data => {
-		console.log(data && data.text);
 		if(!data)
 			return;
-		if(count > limit)
+		if(count > CONFIG.limit)
 			return exit({finish: true});
-		xls.writeBitCoinXls(data);
+		console.log(`${count+1})`, data.text);
 		count++;
+		xls.writeBitCoinXls(data);
 	});
 	stream.on('error', err=>{
 		console.error('Twitter stream error'.red, err);
@@ -31,10 +30,10 @@ function exit(options, err) {
 		console.error(err);
 	setTimeout(function(){
 		if (options.finish){
-			console.log(`Saving changes to ${CONFIG.output}`.green);
+			console.log(`Saving changes to ${CONFIG.output}...`.green);
 			xls.saveXls()
 				.then(()=>{
-					console.log('Done.', 'Exiting...'.red);
+					console.log('Done.'.blue, 'Exiting...'.red);
 					exit({exit: true})
 				})
 				.catch(err => {

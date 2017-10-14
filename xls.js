@@ -2,6 +2,7 @@
 require('colors');
 const FS 			= require('fs');
 const Excel 		= require('exceljs');
+const Moment		= require('moment');
 
 module.exports = function(CONFIG){
 
@@ -13,6 +14,7 @@ module.exports = function(CONFIG){
 
 	const bitCoins = workbook.addWorksheet('BitCoins');
 	bitCoins.columns = [
+		{ header: 'Date', key: 'date', width: 17 },
 		{ header: 'ID',   key: 'id',   width: 10 },
 		{ header: 'User', key: 'user', width: 10 },
 		{ header: 'Lang', key: 'lang', width: 5 },
@@ -22,8 +24,9 @@ module.exports = function(CONFIG){
 	];
 
 	const writeBitCoinXls = function(data){
-		
+
 		var row = bitCoins.addRow({
+			date: Moment(Number(data.timestamp_ms)).format('MMMM Do YYYY, hh:mm:ss'),
 			id: { 
 				text: '@'+data.user.screen_name, 
 				hyperlink: `https://twitter.com/${data.user.name}`
@@ -44,6 +47,7 @@ module.exports = function(CONFIG){
 			wrapText: true
 		}
 
+		row.getCell('date').fill = 
 		row.getCell('user').fill = 
 		row.getCell('id').fill = {
     		type: 'pattern',
@@ -74,13 +78,14 @@ module.exports = function(CONFIG){
     		bgColor:{argb:'FF0000FF'}
 		}
 
+		row.getCell('id').border =
 		row.getCell('user').border =
 		row.getCell('lang').border ={
 		    top: {style:'thick', color: {argb:'FFCCCCCC'}},
 		    bottom: {style:'thick', color: {argb:'FFCCCCCC'}},
 		}
 
-		row.getCell('id').border =
+		row.getCell('date').border =
 		row.getCell('text').border =
 		row.getCell('emotion').border =
 		row.getCell('link').border =  {
