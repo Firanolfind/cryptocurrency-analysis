@@ -8,7 +8,7 @@ const xls 			= require('./xls')(CONFIG);
 
 var count = 0;
 
-twitter.stream('statuses/filter', { track: 'bitcoin' }, function(stream) {
+twitter.stream('statuses/filter', { track: CONFIG.target }, function(stream) {
 	stream.on('data', data => {
 		if(!data)
 			return;

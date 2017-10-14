@@ -1,5 +1,6 @@
 
 module.exports = {
+	target: 'bitcoin',
 	twitter: {
 		consumer_key: 've49AjvRFFo9tcYNAmgHC7BjM',
 		consumer_secret: 'DXi3wzISlwQtSYRM2WqoHCjr1QV4x4zSDDeMIVrPeKYaNkkhbl',
