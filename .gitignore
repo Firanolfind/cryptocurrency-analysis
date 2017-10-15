@@ -1,0 +1,9 @@
+sftp-config.json
+sublime-gulp.log
+.tmp/*
+node_modules/*
+npm-debug
+*.zip
+*.xls
+*.xlsx
+*.xlsm

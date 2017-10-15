@@ -3,29 +3,33 @@ require('colors');
 const FS 			= require('fs');
 const Excel 		= require('exceljs');
 const Moment		= require('moment');
+const packageJson 	= require('./package.json');
+const author 		= process.env.USER || packageJson.author;
 
 module.exports = function(CONFIG){
 
-	const fileStream 	= FS.createWriteStream(CONFIG.output);
+	const fileStream 		= FS.createWriteStream(CONFIG.output);
+	const workbook 			= new Excel.Workbook();
+	workbook.creator 		= author;
+	workbook.lastModifiedBy = author;
 
-	const workbook 		= new Excel.Workbook();
-	workbook.creator 	= 'Firanolfind';
-	workbook.lastModifiedBy = 'Firanolfind';
+	const worksheets = {};
+	CONFIG.target.forEach(target => {
+		worksheets[target] = workbook.addWorksheet(target);
+		worksheets[target].columns = [
+			{ header: 'Date', key: 'date', width: 17 },
+			{ header: 'ID',   key: 'id',   width: 10 },
+			{ header: 'User', key: 'user', width: 10 },
+			{ header: 'Lang', key: 'lang', width: 5 },
+			{ header: 'Message', key: 'text', width: 80 },
+			{ header: 'Emotion', key: 'emotion', width: 10 },
+			{ header: 'Link', key: 'link', width: 50 }
+		];
+	});
 
-	const bitCoins = workbook.addWorksheet('BitCoins');
-	bitCoins.columns = [
-		{ header: 'Date', key: 'date', width: 17 },
-		{ header: 'ID',   key: 'id',   width: 10 },
-		{ header: 'User', key: 'user', width: 10 },
-		{ header: 'Lang', key: 'lang', width: 5 },
-		{ header: 'Message', key: 'text', width: 80 },
-		{ header: 'Emotion', key: 'emotion', width: 10 },
-		{ header: 'Link', key: 'link', width: 50 }
-	];
+	const writeXls = function(target, data){
 
-	const writeBitCoinXls = function(data){
-
-		var row = bitCoins.addRow({
+		var row = worksheets[target].addRow({
 			date: Moment(Number(data.timestamp_ms)).format('MMMM Do YYYY, hh:mm:ss'),
 			id: { 
 				text: '@'+data.user.screen_name, 
@@ -101,7 +105,7 @@ module.exports = function(CONFIG){
 	}
 
 	return {
-		writeBitCoinXls: 	writeBitCoinXls,
-		saveXls: 			saveXls
+		writeXls: 	writeXls,
+		saveXls: 	saveXls
 	};
 }

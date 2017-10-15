@@ -1,5 +1,5 @@
 {
-  "name": "cryptocurrency_analysis",
+  "name": "twitter-accumulator",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -14,15 +14,11 @@
     "moment": "^2.19.1",
     "twitter": "^1.7.1"
   },
-  "devDependencies": {
-    "mocha": "^3.2.0"
-  },
   "keywords": [
-    "bitcoin",
-    "crypto",
-    "cryptocurrency",
-    "blockchain",
+    "twitter",
+    "excel",
+    "xls",
     "mmm"
   ],
-  "description": ""
+  "description": "Twitter feed accumulator to excel output file"
 }
