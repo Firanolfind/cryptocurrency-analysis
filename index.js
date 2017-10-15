@@ -64,6 +64,16 @@ function exit(options, err) {
 process.on('SIGINT', 			exit.bind(null, {finish: true}));
 process.on('uncaughtException', exit.bind(null, {finish: true}));
 
+// exit on buggy шindoшs
+if(process.platform === "win32"){
+	(require("readline").createInterface({
+		input: process.stdin,
+		output: process.stdout
+	})).on("SIGINT", ()=>{
+		process.emit("SIGINT");
+	});
+}
+
 // Autosave
 const save = (timeout=0) => setTimeout(()=>{
 	xls.saveXls()
