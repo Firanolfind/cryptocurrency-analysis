@@ -1,13 +1,13 @@
 
 module.exports = {
-	target: '',
+	target: ['lol'],
 	twitter: {
 		consumer_key: '',
 		consumer_secret: '',
 		access_token_key: '',
 		access_token_secret: ''
 	},
-	limit: 1000,
+	limit: 10,
 	writeToFileStep: 5,
 	output: 'report.xlsx'
 };
